@@ -78,7 +78,7 @@
 		  <configuration>
 		  			<!-- 镜像名称：版本号 -->
                     <imageName>dockerjarweb:v1</imageName>
-                    <dockerHost>http://155.138.230.167:2375</dockerHost>
+                    <dockerHost>http://ip:2375</dockerHost>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
