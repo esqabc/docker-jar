@@ -27,4 +27,3 @@
 		<!--Docker构建配置信息 end-->
     
     
-  #下面是通过pom.xml文件打包镜像的maven-pom.xml文件配置：
