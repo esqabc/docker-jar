@@ -1,0 +1,97 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dockerjar</groupId>
+  <artifactId>dockerjar</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0.0</version>
+  <name>dockerjar</name>
+  <description>Maven打包docker在java直接运行的项目</description>
+  
+   <!-- Spring boot 版本 -->
+   <parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.0.RELEASE</version>
+  </parent>
+
+   <!-- 配置编码格式  begin -->
+  <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        
+        <!-- docker镜像名称前缀 -->
+        <docker.image.prefix>dockerjarweb</docker.image.prefix>
+        <!-- docker镜像版本号-->
+        <docker.image.tag>v1</docker.image.tag>
+        
+  </properties>
+  <!-- 配置编码格式  end -->
+
+<!-- JAR包配置  begin-->
+  <dependencies>
+		<!-- SpringBoot web用到的JAR -->
+	    <dependency>
+	    	<groupId>org.springframework.boot</groupId>
+	    	<artifactId>spring-boot-starter-web</artifactId>
+  		</dependency>
+  		<!-- Springboot与页面交互（thymeleaf工具） -->
+  		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency> 
+  		<!-- JUnit单元测试工具 -->
+	    <dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <version>3.8.1</version>
+	      <scope>test</scope>
+	    </dependency>
+    	<!-- 日志输出 jar -->
+	    <dependency>
+    		<groupId>org.projectlombok</groupId>
+    		<artifactId>lombok</artifactId>
+    	</dependency>
+
+    	
+  </dependencies>
+  <!-- JAR包配置  end-->
+  
+  
+  
+  <!-- 插件配置  begin -->
+  <build>
+  <finalName>dockerjar</finalName>
+    <plugins>
+    	 <!-- 打包配置 -->
+    	 <plugin>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+         </plugin>
+         
+	  	<!--Docker构建配置信息 begin-->
+		<plugin>
+	      <groupId>com.spotify</groupId>
+	      <artifactId>docker-maven-plugin</artifactId>
+	      <version>1.2.0</version>
+		  <configuration>
+		  			<!-- 镜像名称：版本号 -->
+                    <imageName>dockerjarweb:v1</imageName>
+                    <dockerHost>http://155.138.230.167:2375</dockerHost>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                    </resource>
+                </resources>
+           </configuration>
+	    </plugin>
+		<!--Docker构建配置信息 end-->
+	
+    </plugins>
+  </build>
+   <!-- 插件配置  end -->
+</project>
